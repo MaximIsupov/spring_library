@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class MainController {
+public class LibraryController {
 
-    @GetMapping("/")
-    public String home(Model model) {
-        return "home";
+    @GetMapping("/library")
+    public String library(Model model) {
+        return "library";
     }
 
 }
