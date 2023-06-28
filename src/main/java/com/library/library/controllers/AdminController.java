@@ -63,6 +63,7 @@ public class AdminController {
         return "redirect:/admin/shelfes";
     }
 
+
     @GetMapping("/admin/shelfes/{id}/view")
     public String admin_shelfes_view_post(@PathVariable(value = "id") long id, Model model) {
         Shelf shelf = shelf_repository.findById(id).orElseThrow();
@@ -128,6 +129,31 @@ public class AdminController {
     public String admin_books_add_post(@PathVariable(value = "id") long id, Model model) {
         Book book = book_repository.findById(id).orElseThrow();
         book_repository.delete(book);
+        return "redirect:/admin/books";
+    }
+
+    @GetMapping("/admin/books/{id}/edit")
+    public String admin_books_edit_get(@PathVariable(value = "id") long id, Model model) {
+        Book book = book_repository.findById(id).orElseThrow();
+        model.addAttribute("book", book);
+        return "admin_edit_book";
+    }
+
+    @PostMapping("/admin/books/{id}/edit")
+    public String admin_books_edit_post(@PathVariable(value = "id") long id,
+                                        Model model,
+                                        @RequestParam String author_name,
+                                        @RequestParam String book_name,
+                                        @RequestParam String publisher,
+                                        @RequestParam Integer year,
+                                        @RequestParam String description) {
+        Book book = book_repository.findById(id).orElseThrow();
+        book.setAuthor_name(author_name);
+        book.setBook_name(book_name);
+        book.setPublisher(publisher);
+        book.setYear(year);
+        book.setDescription(description);
+        book_repository.save(book);
         return "redirect:/admin/books";
     }
 
