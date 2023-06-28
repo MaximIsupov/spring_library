@@ -18,12 +18,12 @@
             <snap th:text="${book.publisher}"></snap>
             <snap th:text="${book.year}"></snap>
             <p th:text="${book.description}"></p>
-            <form th:action="'/admin/books/' + ${book.id} + '/remove'" method="post">
-                <button class="btn btn-warning" type="submit">Удалить книгу</button>
+            <form th:action="'/admin/shelfes/' + ${book.id} + '/remove_book'" method="post">
+                <button class="btn btn-warning" type="submit">Удалить книгу с полки</button>
             </form>
         </div>
     </div>
-    <a href = "/admin/books/add">Добавить книгу в коллекцию</a>
+    <a th:href="'/admin/shelfes/' + ${shelf} + '/add_book'">Добавить книгу в коллекцию</a>
 </div>
 </body>
 </html>

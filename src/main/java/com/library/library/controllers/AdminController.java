@@ -29,6 +29,7 @@ public class AdminController {
     public String admin(Model model) {
         return "admin";
     }
+
     @GetMapping("/admin/books")
     public String admin_books(Model model) {
         Iterable<Book> books = book_repository.findAll();
@@ -75,7 +76,36 @@ public class AdminController {
             }
         }
         model.addAttribute("books",  current_books);
+        model.addAttribute("shelf",  id);
         return "admin_shelf_view";
+    }
+
+    @GetMapping("/admin/shelfes/{id}/add_book")
+    public String admin_shelfes_add_book(@PathVariable(value = "id") long id, Model model) {
+        Iterable <Book> books = book_repository.findAll();
+        model.addAttribute("books",  books);
+        model.addAttribute("shelf",  id);
+        return "admin_shelf_add_book";
+    }
+
+    @PostMapping("/admin/shelfes/{id}/add_book")
+    public String admin_shelfes_add_book_post(@PathVariable(value = "id") long id,
+                                              @RequestParam Long book_id,
+                                              Model model) {
+        Book book = book_repository.findById(book_id).orElseThrow();
+        Shelf shelf = shelf_repository.findById(id).orElseThrow();
+        book.setShelf(shelf);
+        book_repository.save(book);
+        return "redirect:/admin/shelfes";
+    }
+
+    @PostMapping("/admin/shelfes/{id}/remove_book")
+    public String admin_shelfes_remove_book_post(@PathVariable(value = "id") long book_id,
+                                              Model model) {
+        Book book = book_repository.findById(book_id).orElseThrow();
+        book.setShelf(null);
+        book_repository.save(book);
+        return "redirect:/admin/shelfes";
     }
 
     @GetMapping("/admin/books/add")
