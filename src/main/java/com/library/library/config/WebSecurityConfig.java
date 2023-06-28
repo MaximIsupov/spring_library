@@ -18,7 +18,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/library",
+                                "/",
+                                "/library/shelfes/{id}/view",
+                                "/css/**",
+                                "/fonts/**",
+                                "/images/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
